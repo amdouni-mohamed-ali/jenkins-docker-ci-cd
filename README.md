@@ -75,13 +75,37 @@ The first time, jenkins will ask you for the password show in the logs (5adc356b
 
 ![localhost](https://user-images.githubusercontent.com/16627692/77825699-5aca2e80-710b-11ea-9bfe-ed16bb4dcce4.png)
 
-#### Post installation
-
-If everything is configured (you've created the volume and installed jenkins), you can use this command to run the container :
+The second time you run this container, you can use this command (to skip all configurations steps above) :
 
     $ docker-compose up
 
+#### Create the pipeline project
+
+From the jenkins GUI, create a new pipeline project :
+
+1. New Item
+2. The name of the job will be pipeline-jenkins-docker-ci-cd
+3. choose pipeline from the projects template
+4. click on OK
+5. From the pipeline section :
+
+   5.1. Choose `Pipeline script from scm` From the Definition combo box
+
+   5.2. Choose `Git` from the SCM combo box
+
+   5.2.1. In the `Repository URL` section, type the url of your repository. In my case it will be this repository (https://github.com/amdouni-mohamed-ali/jenkins-docker-ci-cd.git)
+
+   5.2.2 If your repository is private. From the `Credentials`, add a new credentials (your github login/password) so git can download the source code.
+
+6. Make sure that the jenkins file name in the `Script Path` section is Jenkinsfile.
+
+7. Click on save
+
+![pipeline](https://user-images.githubusercontent.com/16627692/77826826-1c843d80-7112-11ea-8b58-9dda1b6a7213.png)
+
 ## Overview
+
+### Code structure
 
 Our code structure is as follow :
 
@@ -89,117 +113,40 @@ Our code structure is as follow :
 jenkins-docker-ci-cd
 │
 └─── web-app
+|
 └─── jenkins
+|    └─── build
+|    |    └─── build.sh
+|    |    └─── docker-compose-build.yml
+|    |    └─── Dockerfile-Java
+|    |    └─── mvn.sh
+|
 └─── Dockerfile
 └─── docker-compose.yml
+└─── Jenkinsfile
 ```
 
 - web-app : This is a Java web application. We will use its source code to build a docker container (of the app) and deploy it on the deploy machine.
 - jenkins : This directory will contain the scripts to build, test, push and deploy the web application.
 - Dockerfile : This is the jenkins docker file (used to build our jenkins-docker image).
 - docker-compose.yml : This file will be used to run the jenkins container.
+- Jenkinsfile : this is the jenkins file that contains our workflow (scripts to run in each stage).
 
-This is ou ci/cd workflow.
+### CI/CD workflow
+
+This is our ci/cd workflow.
 
 ![Flow](https://user-images.githubusercontent.com/16627692/77823028-43ce1100-70f8-11ea-9118-0dfd647827a4.png)
 
-## Run/Stop the app
+#### The Build stage
 
-To start the docker environment, run this command :
+In this stage we will build our jar file using a maven command (mvn clean package : a maven command to build a java application) and then we gonna build a java docker image using the generated jar. To do this we gonna use two scripts :
 
-    $ docker-compose up --build
+- jenkins/build/mvn.sh : If you check the Jenkinsfile, you'll find that the first script to run in this stage is
+  `./jenkins/build/mvn.sh mvn -B -DskipTests clean package`. This script will copy
+  the web-app directory (the java code) into a maven container and build the code (using mvn -B -DskipTests clean package).
 
-Well, the first time you run this command you have to wait about 10 minutes to setup the database :
-
-Wait for these logs :
-
-```log
-mysql       | 2020-02-04T15:40:39.855273Z 0 [Warning] CA certificate ca.pem is self signed.
-mysql       | 2020-02-04T15:40:40.206740Z 1 [Warning] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
-|
-|
-|
-mysql       | 2020-02-04T15:31:25.379440Z 0 [Note] mysqld: ready for connections.
-|
-|
-mysql       | 2020-02-04 15:31:43+00:00 [Note] [Entrypoint]: Creating database db
-mysql       | 2020-02-04 15:31:43+00:00 [Note] [Entrypoint]: Creating user user
-mysql       | 2020-02-04 15:31:43+00:00 [Note] [Entrypoint]: Giving user user access to schema db
-mysql       | 2020-02-04 15:31:43+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/schema.sql
-|
-|
-|
-mysql       | 2020-02-04 15:43:21+00:00 [Note] [Entrypoint]: Database files initialized
-mysql       | 2020-02-04 15:43:21+00:00 [Note] [Entrypoint]: Starting temporary server
-mysql       | 2020-02-04 15:43:21+00:00 [Note] [Entrypoint]: Waiting for server startup
-|
-|
-mysql       | 2020-02-04T15:43:55.339162Z 0 [Note] mysqld: ready for connections.
-mysql       | Version: '5.7.28'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
-```
-
-As we can see the database is ready now for connections.
-
-To check the database status, use adminer to connect to it :
-
-![adminer](https://user-images.githubusercontent.com/16627692/73834477-16f23180-480c-11ea-9d00-a11b76f10801.png)
-
-The password is : password
-
-To stop the app you can simply run this command :
-
-    $ docker-compose down
-
-Each time you change the project dependencies or the schema.sql file you have to delete the app volumes and rerun the app :
-
-    $ docker-compose down
-    $ docker-compose rm
-    $ docker volume prune
-
-## Simple Test
-
-In this section we will show you how the app works by making a registration scenario.
-
-Check the database content (USERS and TOKENS tables) before continuing :
-
-![adminer_add_user](https://user-images.githubusercontent.com/16627692/73835712-2bcfc480-480e-11ea-9437-01e5f7029b63.jpg)
-
-![adminer_add_token](https://user-images.githubusercontent.com/16627692/73835628-017e0700-480e-11ea-9062-2a8ac3c6d7c7.png)
-
-Go to the registration page and create a new account :
-
-- [http://localhost:3000/signup](http://localhost:3000/signup)
-
-![signup](https://user-images.githubusercontent.com/16627692/73835246-5ec58880-480d-11ea-8e85-dcf996676300.jpg)
-
-![after_signup](https://user-images.githubusercontent.com/16627692/73835504-c5e33d00-480d-11ea-9491-b442efabbaa3.png)
-
-Now check your email address, you will find a new message :
-
-![confirmation_email](https://user-images.githubusercontent.com/16627692/73835768-44d87580-480e-11ea-9409-73fb9973afe1.png)
-
-Copy/paste the link in your browser and click enter. The verification process will be triggered anf if every thing is OK you will be redirected
-to the login page :
-
-![login](https://user-images.githubusercontent.com/16627692/73836063-c6300800-480e-11ea-87dc-f183eaeccb1f.png)
-
-Check the database and you'll find that your account has beed verified :
-
-![adminer_add_token_after](https://user-images.githubusercontent.com/16627692/73836178-faa3c400-480e-11ea-89f2-9d55d909b0d4.png)
-
-The token confirmation data has been updated and the request host and user agent also.
-
-![adminer_add_user_after](https://user-images.githubusercontent.com/16627692/73836308-3b034200-480f-11ea-905f-ba90cb049132.jpg)
-
-And the user account has been confirmed.
-
-Now we can access the app via the login page :
-
-- [http://localhost:3000/login](http://localhost:3000/login)
-
-![dashboard](https://user-images.githubusercontent.com/16627692/73836400-74d44880-480f-11ea-883f-c799c5006cfb.png)
-
-`PN` : If you will make examples on the net using this code, make sure to not commit your send grid api key or just delete it when you finish.
+- jenkins/build/build.sh : This script will copy the generated jar file (from web-app/target) into the build directory. Then, it's gonna build a java docker image and move the jar file to it.
 
 ## Authors
 

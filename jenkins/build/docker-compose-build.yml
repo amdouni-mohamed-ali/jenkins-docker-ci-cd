@@ -1,0 +1,9 @@
+version: "3"
+services:
+  app:
+    # BUILD_TAG is a jenkins variable. As this file will be executed by jenkins, we gonna use the build tag to version our application
+    # jenkins-tutorial is my repo name mouhamedali/jenkins-tutorial
+    image: "jenkins-docker-ci-cd:$BUILD_TAG"
+    build:
+      context: .
+      dockerfile: Dockerfile-Java
