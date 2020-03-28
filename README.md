@@ -103,6 +103,15 @@ From the jenkins GUI, create a new pipeline project :
 
 ![pipeline](https://user-images.githubusercontent.com/16627692/77826826-1c843d80-7112-11ea-8b58-9dda1b6a7213.png)
 
+#### Create a new docker hub repository
+
+In our ci/cd workflow, we will push the web app docker image to the docker hub repository. Then we will deploy this image from the deploy machine. For this reason you have to :
+
+1. create a docker hub account if you don't have one
+2. create a new repository (i named it jenkins-docker-ci-cd in my case). It can be private or public it's up to you (private in my case).
+
+![docker-hub-repo](https://user-images.githubusercontent.com/16627692/77828353-2b232280-711b-11ea-81cf-e818bf2cc477.png)
+
 ## Overview
 
 ### Code structure

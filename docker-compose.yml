@@ -10,3 +10,9 @@ services:
     # We are using this volume to prevent docker from deleting our jenkins data each time we restart the container
     volumes:
       - $PWD/jenkins_home:/var/jenkins_home
+      # the docker.sock is the socket used by our docker client to interact with the docker server (execute commands) we will let the docker client from the jenkins container
+      # to have access to this socket (execute commands from the container)
+      # if you have a permission denied error (not my case)
+      # you have to chown this file to the jenkins user (so you can execute commands from the container otherwise you'll have a permission denied error)
+      # as we didn't install jenkins in this computer we have to get the jenkins user from the container (just type id in the container) and chown the file to this user chown 1000:1000
+      - "/var/run/docker.sock:/var/run/docker.sock"
