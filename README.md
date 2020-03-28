@@ -160,6 +160,12 @@ In this stage we will build our jar file using a maven command (mvn clean packag
 
 - jenkins/build/build.sh : This script will copy the generated jar file (from web-app/target) into the build directory. Then, it's gonna build a java docker image and move the jar file to it.
 
+#### The Test stage
+
+In this stage we will run the tests of our java application.
+
+- jenkins/build/mvn.sh : In this script we will use a maven container to copy the source code of our application to it and run tests.
+
 ## Authors
 
 - Mohamed Ali AMDOUNI
