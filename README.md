@@ -103,6 +103,9 @@ From the jenkins GUI, create a new pipeline project :
 
 ![pipeline](https://user-images.githubusercontent.com/16627692/77826826-1c843d80-7112-11ea-8b58-9dda1b6a7213.png)
 
+Now you have to modify the WORKSPACE variable located in the `jenkins/build/mvn.sh` file. The workspace must be the jenkins
+workspace located in the jenkins_home/workspace/pipeline-jenkins-docker-ci-cd directory.
+
 #### Create a new docker hub repository
 
 In our ci/cd workflow, we will push the web app docker image to the docker hub repository. Then we will deploy this image from the deploy machine. For this reason you have to :
