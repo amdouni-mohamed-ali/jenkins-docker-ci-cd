@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Copy the new jar to the build location
-cp -f web-app/target/*.jar jenkins/build/
+cp -fv web-app/target/*.jar jenkins/build/
 
 echo "****************************"
 echo "** Building Docker Image ***"
