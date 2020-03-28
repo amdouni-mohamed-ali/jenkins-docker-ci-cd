@@ -4,7 +4,8 @@ echo "***************************"
 echo "****** Building jar *******"
 echo "***************************"
 
-WORKSPACE=/home/jenkins/jenkins-data/jenkins_home/workspace/pipeline-docker-maven
+# This is our jenkins workspace. The directory where jenkins will download our git repository and run scripts
+WORKSPACE=/home/jenkins/jenkins-data/jenkins_home/workspace/pipeline-jenkins-docker-ci-cd
 
 docker run --rm  -v  $WORKSPACE/web-app:/app -v /home/jenkins/.m2/:/root/.m2/ -w /app maven:3-alpine "$@"
 
