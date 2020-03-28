@@ -135,6 +135,9 @@ jenkins-docker-ci-cd
 |    |
 |    └─── test
 |    |    └─── mvn.sh
+|    |
+|    └─── push
+|    |    └─── push.sh
 └─── Dockerfile
 └─── docker-compose.yml
 └─── Jenkinsfile
@@ -167,6 +170,24 @@ In this stage we will build our jar file using a maven command (mvn clean packag
 In this stage we will run the tests of our java application.
 
 - jenkins/test/mvn.sh : In this script we will use a maven container to copy the source code of our application to it and run tests.
+
+#### The Push stage
+
+In this stage we will push the docker image create in the build stage to the docker hub. We've already created a docker hub repo in the `Create a new docker hub repository` section.
+
+- jenkins/push/push.sh : In this script we will logging into my docker hub account (via command line), tag the already created image so it can be pushed to docker hub (adding my docker id to the image) and push it to docker hub.
+
+To run this stage you have to pass your docker hub password to the script so you can log into your docker account. If you have a look at the script you'll notice the \$DOCKER_PASS variable. As this script will be launched by jenkins we'll add this variable to jenkins as a credential.
+
+1. Click the Credentials link in the sidebar.
+2. Click on the Global credentials domain.
+3. Click [Add Credentials] (in the sidebar).
+4. Select `Secret text` from the Kind menu, type your password and type `registry-pass` in the ID are.
+5. Click OK.
+
+![credentials-pixlr](https://user-images.githubusercontent.com/16627692/77830649-42b5d780-712a-11ea-932b-9b2350c6fdfd.jpg)
+
+Check the Jenkinsfile to know how to pass this credential to the script.
 
 ## Authors
 
