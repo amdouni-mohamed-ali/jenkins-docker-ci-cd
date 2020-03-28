@@ -132,7 +132,9 @@ jenkins-docker-ci-cd
 |    |    └─── docker-compose-build.yml
 |    |    └─── Dockerfile-Java
 |    |    └─── mvn.sh
-|
+|    |
+|    └─── test
+|    |    └─── mvn.sh
 └─── Dockerfile
 └─── docker-compose.yml
 └─── Jenkinsfile
@@ -164,7 +166,7 @@ In this stage we will build our jar file using a maven command (mvn clean packag
 
 In this stage we will run the tests of our java application.
 
-- jenkins/build/mvn.sh : In this script we will use a maven container to copy the source code of our application to it and run tests.
+- jenkins/test/mvn.sh : In this script we will use a maven container to copy the source code of our application to it and run tests.
 
 ## Authors
 
