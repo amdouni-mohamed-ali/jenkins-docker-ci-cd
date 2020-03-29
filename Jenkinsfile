@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    environment {
+        DOCKER_PASS = credentials('registry-pass') 
+    }
+
     stages {
 
         stage('Build') {
@@ -32,5 +36,16 @@ pipeline {
             }
         }
 
+        stage('Push') {
+            steps {
+                sh './jenkins/push/push.sh'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh './jenkins/deploy/deploy.sh'
+            }
+        }
     }
 }
