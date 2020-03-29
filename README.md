@@ -333,6 +333,53 @@ In this stage we gonna use two scripts to deploy our application.
 
 - jenkins/deploy/publish.sh : In this script we will extract the image (to deploy) properties from `/tmp/.auth` and run it.
 
+### Run the pipeline
+
+Now you can run the jenkins job created in the `Create the pipeline project` section.
+If everything went well you'll have something like this.
+
+![pipeline-success](https://user-images.githubusercontent.com/16627692/77852127-29219800-71dd-11ea-8b35-309416cda616.png)
+
+Like you see the last execution has the number 22 so the jenkins BUILD_TAG will be something like this pipeline-jenkins-docker-ci-cd-22.
+
+Now you can check your docker hub repository (Stage push).
+
+![docker-hub-tag](https://user-images.githubusercontent.com/16627692/77852125-28890180-71dd-11ea-860f-4a19ffdad918.png)
+
+If you access via ssh to the deploy machine and run the docker ps command, you'll have something like this :
+
+![docker-ps](https://user-images.githubusercontent.com/16627692/77852126-29219800-71dd-11ea-8aa0-3e25c9405c0e.png)
+
+As we can see, the build tag is 22.
+
+To get the index page of the web application, run this command :
+
+```sh
+$ curl localhost:80
+```
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <link
+      href="../../css/style.css"
+      rel="stylesheet"
+      th:href="@{/css/style.css}"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <div class="center">
+      <h2>Welcome to the jenkins tutorial !!!</h2>
+      <img align="center" src="images/jenkins.jpg" />
+    </div>
+  </body>
+</body>
+```
+
 ## Authors
 
 - Mohamed Ali AMDOUNI

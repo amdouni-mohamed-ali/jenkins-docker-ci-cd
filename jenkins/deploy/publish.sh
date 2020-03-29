@@ -24,4 +24,4 @@ fi
 
 # Log into the private repository
 echo "Run the new version of the web application" && \
-cd ~ && docker run -d -p 8080:8070 --rm --name app mouhamedali/$IMAGE:$TAG
+cd ~ && docker run -d -p 80:8070 --rm --name app mouhamedali/$IMAGE:$TAG
