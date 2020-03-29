@@ -9,7 +9,7 @@ echo $BUILD_TAG >> /tmp/.auth
 echo $DOCKER_PASS >> /tmp/.auth
 
 # This is the path of the private key to connect to the deploy machine
-AWS_PROD_KEY=$WORKSPACE/deploy/aws-vm-prod-user.pem
+AWS_PROD_KEY=$WORKSPACE/jenkins/deploy/aws-vm-prod-user.pem
 AWS_PROD_VM_IP=prod-user@ec2-3-17-81-229.us-east-2.compute.amazonaws.com
 
 # Transfer the environment variables to be used in the deploy machine to run the image
