@@ -360,7 +360,7 @@ $ curl localhost:80
 
 ```html
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<body xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Getting Started: Serving Web Content</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
@@ -379,6 +379,22 @@ $ curl localhost:80
   </body>
 </body>
 ```
+
+This is accessible only from local. To open the http from the outside, you have to modify the amazon security rules.
+
+1. From the amazon ec2 instances, click on the launch wizard link (Security Groups)
+
+![config-change-rule](https://user-images.githubusercontent.com/16627692/77852124-27f06b00-71dd-11ea-8c99-7abe4f3bf809.png)
+
+2. Click on edit rules and add this http rule
+
+![change-rule](https://user-images.githubusercontent.com/16627692/77852123-2757d480-71dd-11ea-8599-4b755a29e4b6.png)
+
+Now you can get access to the web app via this link :
+
+[http://ec2-3-17-81-229.us-east-2.compute.amazonaws.com/](http://ec2-3-17-81-229.us-east-2.compute.amazonaws.com/)
+
+![jenkins-cloud](https://user-images.githubusercontent.com/16627692/77852503-4e170a80-71df-11ea-9176-1aae5ce91944.png)
 
 ## Authors
 
