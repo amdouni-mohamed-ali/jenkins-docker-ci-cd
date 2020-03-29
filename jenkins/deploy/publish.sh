@@ -11,4 +11,4 @@ export PASS=$(sed -n '3p' /tmp/.auth)
 docker login -u mouhamedali -p $PASS
 
 # Log into the private repository
-cd ~ && docker run --rm --name app $IMAGE:$TAG
+cd ~ && docker run --rm --name app mouhamedali/$IMAGE:$TAG

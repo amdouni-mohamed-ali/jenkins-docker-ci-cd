@@ -297,6 +297,28 @@ copy the content of the prod file and paste it in `jenkins/deploy/aws-vm-prod-us
 
 We can use an another method. The jenkins remote access method. We can add an ssh connection directly in jenkins so he can access and execute ssh scripts directly.
 
+##### Test the ssh connection
+
+Now we gonna test the ssh connection from the jenkins container.
+
+1. connect to the jenkins container
+
+```sh
+$ docker exec -it jenkins bash
+```
+
+2. go to the project workspace
+
+```sh
+$ cd /var/jenkins_home/workspace/pipeline-jenkins-docker-ci-cd
+```
+
+3. connect to the deploy machine
+
+```sh
+$ ssh -i jenkins/deploy/aws-vm-prod-user.pem prod-user@ec2-3-17-81-229.us-east-2.compute.amazonaws.com
+```
+
 ##### The Deploy scripts
 
 In this stage we gonna use two scripts to deploy our application.
