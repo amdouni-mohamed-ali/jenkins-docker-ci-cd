@@ -223,6 +223,12 @@ If you are using Windows as OS, you can download [Putty](https://www.chiark.gree
 $ sudo useradd prod-user
 ```
 
+Add him to the docker group :
+
+```sh
+sudo usermod -aG docker prod-user
+```
+
 3. Now we gonna create an ssh key
 
 This is gonna be the link of communication between jenkins and the deploy machine. But Why ?
@@ -289,9 +295,7 @@ $ exit
 
 copy the content of the prod file and paste it in `jenkins/deploy/aws-vm-prod-user.pem` (you can remove the existing key)
 
-```sh
-$ chmod 400 jenkins/deploy/aws-vm-prod-user.pem
-```
+We can use an another method. The jenkins remote access method. We can add an ssh connection directly in jenkins so he can access and execute ssh scripts directly.
 
 ##### The Deploy scripts
 
