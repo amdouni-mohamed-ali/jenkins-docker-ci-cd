@@ -1,15 +1,12 @@
 #!/bin/bash
 
-PROJECT_DIR=/home/salto/tutorials/jenkins/jenkins-pipeline-github
-WORKSPACE=$PROJECT_DIR/jenkins_home/workspace/pipeline-jenkins-docker-ci-cd
-
 # In this file we gonna transfer the environment variables to the prod-user machine via FTP (we gonna create the /tmp/.auth file that contains the env variables)
-echo jenkins-tutorial > /tmp/.auth
+echo jenkins-docker-ci-cd > /tmp/.auth
 echo $BUILD_TAG >> /tmp/.auth
 echo $DOCKER_PASS >> /tmp/.auth
 
 # This is the path of the private key to connect to the deploy machine
-AWS_PROD_KEY=$WORKSPACE/jenkins/deploy/aws-vm-prod-user.pem
+AWS_PROD_KEY=./jenkins/deploy/aws-vm-prod-user.pem
 AWS_PROD_VM_IP=prod-user@ec2-3-17-81-229.us-east-2.compute.amazonaws.com
 
 # make the private key only readeable
