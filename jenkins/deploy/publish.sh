@@ -12,8 +12,15 @@ echo "Log into docker hub" && \
 docker login -u mouhamedali -p $PASS && \
 
 # stop already running container
-echo "Stop the already running container (if exists)" && \
-docker stop app && \
+echo "Stopping the already running container (if exists)"
+
+EXIST=$(docker container ls | grep app)
+if [ -z "$EXIST" ]
+then
+      echo "the container is already stopped"
+else
+      echo "Stopping the container"  && docker stop app
+fi
 
 # Log into the private repository
 echo "Run the new version of the web application" && \
