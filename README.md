@@ -289,6 +289,10 @@ $ exit
 
 copy the content of the prod file and paste it in `jenkins/deploy/aws-vm-prod-user.pem` (you can remove the existing key)
 
+```sh
+$ chmod 400 jenkins/deploy/aws-vm-prod-user.pem
+```
+
 ##### The Deploy scripts
 
 In this stage we gonna use two scripts to deploy our application.
