@@ -41,5 +41,11 @@ pipeline {
                 sh './jenkins/push/push.sh'
             }
         }
+
+        stage('Deploy') {
+            steps {
+                sh './jenkins/deploy/deploy.sh'
+            }
+        }
     }
 }
