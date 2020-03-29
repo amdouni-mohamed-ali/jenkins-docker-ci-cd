@@ -8,10 +8,13 @@ export TAG=$(sed -n '2p' /tmp/.auth)
 export PASS=$(sed -n '3p' /tmp/.auth)
 
 # Log into the private repository
-docker login -u mouhamedali -p $PASS
+echo "Log into docker hub" && \
+docker login -u mouhamedali -p $PASS && \
 
 # stop already running container
-docker stop app
+echo "Stop the already running container (if exists)" && \
+docker stop app && \
 
 # Log into the private repository
-cd ~ && docker run --rm --name app mouhamedali/$IMAGE:$TAG
+echo "Run the new version of the web application" && \
+cd ~ && docker run -d -p 8080:8070 --rm --name app mouhamedali/$IMAGE:$TAG
