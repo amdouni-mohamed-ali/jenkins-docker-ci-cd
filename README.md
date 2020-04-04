@@ -208,10 +208,13 @@ To create an amazon ec2 instance and log into it using ssh, you can follow these
 
 - [https://docs.aws.amazon.com/efs/latest/ug/gs-step-one-create-ec2-resources.html](https://docs.aws.amazon.com/efs/latest/ug/gs-step-one-create-ec2-resources.html)
 
-To install docker on the vm (in the case you choose the amazon distribution), use this command :
+To install docker on the vm (in the case you choose the amazon distribution), use these commands :
+
+source : https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html
 
 ```sh
 $ sudo yum install docker 
+$ sudo service docker start
 ```
 
 and add the current user to the docker group :
