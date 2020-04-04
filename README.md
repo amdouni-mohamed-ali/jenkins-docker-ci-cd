@@ -208,6 +208,26 @@ To create an amazon ec2 instance and log into it using ssh, you can follow these
 
 - [https://docs.aws.amazon.com/efs/latest/ug/gs-step-one-create-ec2-resources.html](https://docs.aws.amazon.com/efs/latest/ug/gs-step-one-create-ec2-resources.html)
 
+To install docker on the vm (in the case you choose the amazon distribution), use this command :
+
+```sh
+$ sudo yum install docker 
+```
+
+and add the current user to the docker group :
+
+```sh
+$ sudo usermod -aG docker $(whoami)
+```
+
+check the changes :
+
+```sh
+$ grep 'docker' /etc/group
+```
+
+Now you have to logout/login to run docker commands.
+
 ##### Create the prod user
 
 Now we gonna create a new use on this user and we will call it prod-user. This is the responsible to deploy our application (to avoid using the root user).
